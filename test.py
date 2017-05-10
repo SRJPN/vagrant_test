@@ -51,6 +51,13 @@ class TestVagrantBoxes(unittest.TestCase):
             go_server_installed = True
         self.assertTrue(go_server_installed, "\nGo server not installed")
 
+    def test_go_server_running(self):
+        go_server_running = False
+        command_output = self._remote_exec('sudo service go-server status')[0]
+        if 'running' in command_output:
+            go_server_running = True
+        self.assertTrue(go_server_running, "\nGo server not running")
+
 if __name__ == '__main__':
     port = '2200'
     static_ip = '192.168.33.10'
