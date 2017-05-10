@@ -32,6 +32,18 @@ class TestVagrantBoxes(unittest.TestCase):
                 matching_ip = True
         self.assertTrue(matching_ip, "\nStatic IP: %s not found in test ip" % static_ip)
 
+    def test_nfs_mount_present(self):
+        mounted_folder = False
+        mount_point = False
+        command_output = self._remote_exec('df -h')
+        for output_line in command_output:
+            if 'vagrant_tests' in output_line:
+                mounted_folder = True
+            if '/opt/data' in output_line:
+                mount_point = True
+        self.assertTrue(mount_point, "\nMount point is not /opt/data")
+        self.assertTrue(mounted_folder, "\nvagrant_tests folder not mounted")
+
 if __name__ == '__main__':
     port = '2200'
     static_ip = '192.168.33.10'
