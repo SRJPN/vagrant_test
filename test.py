@@ -44,6 +44,13 @@ class TestVagrantBoxes(unittest.TestCase):
         self.assertTrue(mount_point, "\nMount point is not /opt/data")
         self.assertTrue(mounted_folder, "\nvagrant_tests folder not mounted")
 
+    def test_go_server_installed(self):
+        go_server_installed = False
+        command_output = self._remote_exec('sudo yum info go-server | grep Repo')[0]
+        if 'installed' in command_output:
+            go_server_installed = True
+        self.assertTrue(go_server_installed, "\nGo server not installed")
+
 if __name__ == '__main__':
     port = '2200'
     static_ip = '192.168.33.10'
