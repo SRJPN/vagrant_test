@@ -24,6 +24,15 @@ class TestVagrantBoxes(unittest.TestCase):
         self.assertLess(actual_memory, maximum_memory, '\nMemory allocated greater than 2GB')
         self.assertGreater(actual_memory, minimum_memory,'\nMemory allocated lesser than 1.8GB')
 
+    def test_ip(self):
+        matching_ip = False
+        command_output = self._remote_exec('/sbin/ifconfig | grep inet | grep addr')
+        for ifconfig_line in command_output:
+            if static_ip in ifconfig_line:
+                matching_ip = True
+        self.assertTrue(matching_ip, "\nStatic IP: %s not found in test ip" % static_ip)
+
 if __name__ == '__main__':
     port = '2200'
+    static_ip = '192.168.33.10'
     unittest.main()
