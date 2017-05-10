@@ -7,6 +7,10 @@ class TestVagrantBoxes(unittest.TestCase):
         remote_exec_command = ['ssh', '-t', 'vagrant@127.0.0.1', '-p', port, '-i', '.vagrant/machines/default/virtualbox/private_key', command]
         return subprocess.check_output(remote_exec_command).strip().split('\n')
 
+    def _local_exec(self, command):
+        local_exec_command = command.split()
+        return subprocess.check_output(local_exec_command).strip().split('\n')
+
     def test_os_version(self):
         actual_release = self._remote_exec('cat /etc/redhat-release')[0].strip()
         expected_release = 'CentOS release 6.7 (Final)'
@@ -57,6 +61,14 @@ class TestVagrantBoxes(unittest.TestCase):
         if 'running' in command_output:
             go_server_running = True
         self.assertTrue(go_server_running, "\nGo server not running")
+
+    def test_go_server_accessible_from_host(self):
+        go_server_accessible = False
+        command_output = self._local_exec('netstat -anp tcp')
+        for line in command_output:
+            if '9153' in line:
+                go_server_accessible = True
+        self.assertTrue(go_server_accessible, "\nGo server not accessible from host")
 
 if __name__ == '__main__':
     port = '2200'
