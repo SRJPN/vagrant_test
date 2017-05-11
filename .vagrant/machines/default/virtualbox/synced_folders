@@ -1,0 +1,1 @@
+{"nfs":{"/opt/data":{"type":"nfs","guestpath":"/opt/data","hostpath":"/Users/soorajp/workspace/vagrant_test","disabled":false,"__vagrantfile":true,"map_uid":502,"map_gid":20,"nfs_udp":true,"nfs_version":3,"uuid":"2195721109"}}}
