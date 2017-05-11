@@ -37,7 +37,7 @@ class TestVagrantBoxes(unittest.TestCase):
         mount_point = False
         command_output = self._remote_exec('df -h')
         for output_line in command_output:
-            if 'vagrant_tests' in output_line:
+            if 'vagrant_test' in output_line:
                 mounted_folder = True
             if '/opt/data' in output_line:
                 mount_point = True
